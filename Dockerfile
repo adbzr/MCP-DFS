@@ -1,17 +1,17 @@
-# Utilisation de Node.js (version légère)
+# Utilisation de Node.js
 FROM node:20-slim
 
 # Définition du dossier de travail
 WORKDIR /app
 
-# INSTALLATION DU SERVEUR MCP DATAFORSEO
-# On installe le package spécifique à DataForSEO
-RUN npm install -g @dataforseo/mcp-server
+# On installe juste les dépendances minimales pour exécuter npx
+RUN apt-get update && apt-get install -y curl
 
-# Le port par défaut utilisé par Railway
+# Le port utilisé par Railway
 EXPOSE 3000
 
-# Commande pour lancer le serveur
-# --sse : Active le mode réseau (Server-Sent Events) pour n8n
-# --port 3000 : Force le port pour Railway
+# Commande corrigée : 
+# On utilise npx pour récupérer le serveur directement depuis le dépôt DataForSEO
+# --sse : active le mode réseau
+# --port 3000 : force le port pour Railway
 CMD ["npx", "-y", "@dataforseo/mcp-server", "--sse", "--port", "3000"]
